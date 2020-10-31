@@ -1,5 +1,4 @@
 const Item = require('./models/Item');
-const tag = require('./models/tag');
 const Tag = require('./models/tag');
 
 const getAllItems = async (req, res) => {
@@ -27,7 +26,7 @@ const addItem = async (req, res) => {
             console.log('search', search);
             console.log('search', search.length);
             if (!search.length) {
-                const newTag = new tag({
+                const newTag = new Tag({
                     nombre: i
                 });
                 newTag.save();
