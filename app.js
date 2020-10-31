@@ -1,6 +1,6 @@
 const app = require('./routes');
 const mongoose = require('mongoose');
-const port = 3000
+const port = process.env.PORT || 3000
 
 require('dotenv/config');
 mongoose.set('useFindAndModify', false);
