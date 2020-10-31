@@ -1,8 +1,8 @@
 const app = require('./routes');
 const mongoose = require('mongoose');
 const port = process.env.PORT || 3977
+require('dotenv').config();
 
-require('dotenv/config');
 mongoose.set('useFindAndModify', false);
 
 mongoose.connect(
