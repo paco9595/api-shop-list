@@ -12,5 +12,7 @@ app.get('/list/:tag', getfilterBytags);
 app.get('/tags', getAllTags);
 app.post('/list', addItem);
 app.delete('/list', removeItem);
+app.get('/', (req,res)=> res.status(200).send('ok'));
+
 
 module.exports = app;
