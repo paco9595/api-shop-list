@@ -1,5 +1,5 @@
-const Item = require('./models/Item');
-const Tag = require('./models/tag');
+const Item = require('./../models/Item');
+const Tag = require('./../models/tag');
 
 const getAllItems = async (req, res) => {
     try {
@@ -65,7 +65,6 @@ const getfilterBytags = async (req, res) => {
 }
 
 const getAllTags = async (req, res) => {
-
     try {
         const tags = await Tag.find();
         res.status(200).send(tags)

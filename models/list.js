@@ -1,17 +1,18 @@
 const mongoose = require('mongoose');
 
-const ItemSchema = mongoose.Schema({
+const ListSchema = mongoose.Schema({
     nombre: {
         type: String,
         required: true,
     },
-    idList: {
+    idUser: {
         type: String,
         required: true,
     },
-    cantidad: Number,
-    marca: String,
-    tags: Array,
+    fecha: {
+        type: Date,
+        required: true,
+    },
 });
-module.exports = mongoose.model('items', ItemSchema);
+module.exports = mongoose.model('Lists', List);
 
