@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const ListSchema = mongoose.Schema({
-    nombre: {
+    name: {
         type: String,
         required: true,
     },
@@ -9,10 +9,11 @@ const ListSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    fecha: {
+    date: {
         type: Date,
+        default: Date.now,
         required: true,
     },
 });
-module.exports = mongoose.model('Lists', List);
+module.exports = mongoose.model('Lists', ListSchema);
 
