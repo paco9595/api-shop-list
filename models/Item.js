@@ -12,6 +12,11 @@ const ItemSchema = mongoose.Schema({
     cantidad: Number,
     marca: String,
     tags: Array,
+    idUser: {
+        type: String,
+        required: true,
+    },
+    checked: Boolean
 });
 module.exports = mongoose.model('items', ItemSchema);
 

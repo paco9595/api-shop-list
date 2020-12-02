@@ -1,5 +1,6 @@
 const Item = require('./../models/Item');
 const Tag = require('./../models/tag');
+const { ObjectId } = require('mongoose').Types;
 
 const getAllItems = async (req, res) => {
     try {
@@ -12,6 +13,7 @@ const getAllItems = async (req, res) => {
 }
 
 const addItem = async (req, res) => {
+    const { idUser, idList } = req.params;
     const { nombre, cantidad, marca, tags } = req.body;
     console.log('body', tags)
     try {
@@ -19,7 +21,9 @@ const addItem = async (req, res) => {
             nombre,
             cantidad,
             marca,
-            tags
+            tags,
+            idList,
+            idUser
         });
         tags.map(async i => {
             const search = await Tag.find({ nombre: i });
@@ -42,13 +46,15 @@ const addItem = async (req, res) => {
 }
 
 const removeItem = async (req, res) => {
-    const { id } = req.body;
-    try {
-        const items = await Item.findByIdAndRemove(id);
-        res.status(200).send({ message: "elemento eliminado", items })
-    } catch (error) {
-        res.status(500).send({ message: error })
-    }
+    const { idList, idUser, idItem } = req.params;
+    console.log('idList', idList);
+    console.log('idUser', idUser);
+    console.log('idItem', idItem);
+    Item.deleteOne({ "_id": ObjectId(idItem), idList, idUser }, (err, results) => {
+        if (err) return res.status(500).send({ error: `error: ${err}` })
+        console.log('results', results);
+        return res.status(200).send({ results });
+    });
 }
 
 const getfilterBytags = async (req, res) => {
@@ -74,11 +80,33 @@ const getAllTags = async (req, res) => {
 
 };
 
+const putItem = async (req, res) => {
+    const { idItem } = req.params;
+    const { name, cantidad, marca, tags, checked } = req.body.data;
+    try {
+
+        Item.updateOne({ "_id": ObjectId(idItem) }, {
+            $set: {
+                name,
+                cantidad,
+                marca,
+                tags,
+                checked
+            }
+        }, (err, results) => {
+            if (err) return res.status(500).send({ error: `error: ${err}` })
+            return res.status(200).send({ results });
+        });
+    } catch (error) {
+        return res.status(500).send({ error: `error: ${error}` })
+    }
+};
 
 module.exports = {
     getAllItems,
     addItem,
     removeItem,
     getfilterBytags,
-    getAllTags
+    getAllTags,
+    putItem
 }

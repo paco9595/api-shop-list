@@ -4,7 +4,7 @@ const { getList,getAllList, addList, removeList,updateLit } = require('./../cont
 
 router.get('/:idUser', getAllList);
 router.get('/:idUser/:idList', getList);
-router.post('/', addList);
+router.post('/:idUser', addList);
 router.delete('/:idUser/:idList', removeList);
 router.put('/:idUser/:idList', updateLit)
 
