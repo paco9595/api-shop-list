@@ -40,6 +40,7 @@ const getAllList = (req, res) => {
                         idUser: i.idUser,
                         name: i.name,
                         _id: i.id,
+                        color: i.color,
                         item: items.slice(0, 5)
                     };
                     
@@ -64,7 +65,7 @@ const addList = (req, res) => {
             return res.status(500).send({ error: `error: ${err}` })
         }
         console.log('new', newList);
-        const { _id, name, idUser, date } = newList;
+        const { _id, name, idUser, date, color} = newList;
         if (items.length) {
             const formatItem = items.map(i => ({ ...i, idList: _id, idUser }))
             Item.insertMany(formatItem, (err, responseItem) => {
@@ -74,11 +75,12 @@ const addList = (req, res) => {
                     _id,
                     name,
                     idUser,
-                    date
+                    date,
+                    color
                 });
             })
         } else {
-            return res.status(200).send({ _id, name, idUser, date });
+            return res.status(200).send({ _id, name, idUser, date, color });
         }
 
 

@@ -14,6 +14,10 @@ const ListSchema = mongoose.Schema({
         default: Date.now,
         required: true,
     },
+    color: {
+        type: String,
+        default: '#fdbf62d4'
+    }
 });
 module.exports = mongoose.model('Lists', ListSchema);
 
