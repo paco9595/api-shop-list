@@ -17,6 +17,7 @@ const getList = (req, res) => {
             return res.status(200).send({
                 name: resultList[0].name,
                 date: resultList[0].date,
+                color: resultList[0].color,
                 item: results
             });
         });
