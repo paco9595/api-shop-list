@@ -44,7 +44,7 @@ const getAllList = (req, res) => {
                         color: i.color,
                         item: items.slice(0, 5)
                     };
-                    
+
                 } catch (error) {
 
                 }
@@ -66,7 +66,7 @@ const addList = (req, res) => {
             return res.status(500).send({ error: `error: ${err}` })
         }
         console.log('new', newList);
-        const { _id, name, idUser, date, color} = newList;
+        const { _id, name, idUser, date, color } = newList;
         if (items.length) {
             const formatItem = items.map(i => ({ ...i, idList: _id, idUser }))
             Item.insertMany(formatItem, (err, responseItem) => {
@@ -94,7 +94,6 @@ const removeList = (req, res) => {
         if (err) {
             return res.status(500).send({ error: `error: ${err}` })
         }
-        console.log('si correo este')
         Item.deleteMany({ idList }, err => {
             if (err) return res.status(500).send({ error: `error: ${err}` })
             return res.status(200).send({ results });
@@ -103,7 +102,43 @@ const removeList = (req, res) => {
     })
 
 }
-const updateLit = (req, res) => { }
+const updateLit = (req, res) => {
+    const { idList, idUser } = req.params;
+    const { name, items, color } = req.body;
+    List.findByIdAndUpdate({ "_id": ObjectId(idList) }, { color, name }, (err, response) => {
+        console.log('res', response)
+        const { _id, date } = response;
+        if (err) {
+            return res.status(500).send({ error: `error: ${err}` })
+        }
+        if (items.length){
+            Item.deleteMany({ idList }, err => {
+                if (err) return res.status(500).send({ error: `test 1 error: ${err}` })
+                const formatItem = items.map(i => {
+                    const { marca, cantidad, checked, name} = i;
+                    return { idList: _id, idUser, marca, cantidad, checked, date, name }
+                });
+                console.log('formatItem', formatItem);
+                Item.insertMany(formatItem, (err, item) => {
+                    if (err) return res.status(500).send({ error: `test 2error: ${err}` })
+                    console.log('data Item', item)
+                    return res.status(200).send({
+                        _id,
+                        name,
+                        idUser,
+                        date,
+                        color,
+                        item
+    
+    
+                    });
+                });
+            });
+        } else {
+            return res.status(200).send({ _id, name, idUser, date, color });
+        }
+    });
+}
 
 module.exports = {
     getList,
