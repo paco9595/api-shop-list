@@ -25,35 +25,25 @@ const getList = (req, res) => {
 };
 const getAllList = (req, res) => {
     const { idUser } = req.params;
-    List.find({ idUser }, async (err, results) => {
+    List.find({ idUser }, (err, results) => {
         if (err) {
             return res.status(500).send({ error: `error: ${err}` })
         }
-        console.log('test si entra')
-        if (results.length) {
-            console.log('si entro')
-            results = await Promise.all(results.map(async (i) => {
-                try {
-                    const items = await Item.find({ idList: i._id });
-                    console.log('i', i)
-                    console.log('test items', items)
-                    return {
-                        idUser: i.idUser,
-                        name: i.name,
-                        _id: i.id,
-                        color: i.color,
-                        item: items.slice(0, 5)
-                    };
-
-                } catch (error) {
-
-                }
-            }));
-        }
-        console.log('primero', results)
         return res.status(200).send(results);
 
     });
+}
+const getSharedList = (req, res) => {
+    const { idUser, idOwner, idList, ownerList } = req.params;
+    List.find({ _id: idList, idUser }, (err, results) => {
+        const list = results[0];
+        if (list) {
+            List.find({_id:ownerList, idUser:list.idUser}, (err, validUser)=>{
+                //const user = 
+            })
+        }
+        return res.status(200).send(results);
+    })
 }
 const addList = (req, res) => {
     const { name, idUser, items } = req.body;
@@ -111,11 +101,11 @@ const updateLit = (req, res) => {
         if (err) {
             return res.status(500).send({ error: `error: ${err}` })
         }
-        if (items.length){
+        if (items.length) {
             Item.deleteMany({ idList }, err => {
                 if (err) return res.status(500).send({ error: `test 1 error: ${err}` })
                 const formatItem = items.map(i => {
-                    const { marca, cantidad, checked, name} = i;
+                    const { marca, cantidad, checked, name } = i;
                     return { idList: _id, idUser, marca, cantidad, checked, date, name }
                 });
                 console.log('formatItem', formatItem);
@@ -129,8 +119,8 @@ const updateLit = (req, res) => {
                         date,
                         color,
                         item
-    
-    
+
+
                     });
                 });
             });
@@ -145,5 +135,6 @@ module.exports = {
     getAllList,
     addList,
     removeList,
-    updateLit
+    updateLit,
+    getSharedList
 }

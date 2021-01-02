@@ -17,7 +17,9 @@ const ListSchema = mongoose.Schema({
     color: {
         type: String,
         default: '#fdbf62d4'
-    }
+    },
+    owner: String,
+    ownerList: String
 });
 module.exports = mongoose.model('Lists', ListSchema);
 
