@@ -14,17 +14,16 @@ const getAllItems = async (req, res) => {
 
 const addItem = async (req, res) => {
 	const { idUser, idList } = req.params;
-	const { nombre, cantidad, marca, tags } = req.body;
-	console.log("body", tags);
+	const { name, cantidad, marca, tags } = req.body;
 	const item = new Item({
-		nombre,
+		name,
 		// cantidad,
 		// marca,
 		// tags,
 		idList,
 		idUser,
 	});
-	newItem.save((err, newItem) => {
+	item.save((err, newItem) => {
 		if (err) {
 			return res.status(500).send({ error: `error: ${err}` });
 		}
