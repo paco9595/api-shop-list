@@ -24,18 +24,6 @@ const addItem = async (req, res) => {
 		idList,
 		idUser,
 	});
-	// tags.map(async i => {
-	//     const search = await Tag.find({ nombre: i });
-	//     console.log('search', search);
-	//     console.log('search', search.length);
-	//     if (!search.length) {
-	//         const newTag = new Tag({
-	//             nombre: i
-	//         });
-	//         newTag.save();
-	//     }
-
-	// })
 	newItem.save((err, newItem) => {
 		if (err) {
 			return res.status(500).send({ error: `error: ${err}` });
