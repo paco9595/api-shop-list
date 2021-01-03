@@ -106,7 +106,7 @@ const updateLit = (req, res) => {
 			if (err) {
 				return res.status(500).send({ error: `error: ${err}` });
 			}
-			if (items.length) {
+			if (items && items.length) {
 				Item.deleteMany({ idList }, (err) => {
 					if (err)
 						return res
