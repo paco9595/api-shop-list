@@ -41,7 +41,7 @@ const removeItem = async (req, res) => {
 		(err, results) => {
 			if (err) return res.status(500).send({ error: `error: ${err}` });
 			console.log("results", results);
-			return res.status(200).send({ results });
+			return getList(req, res);
 		}
 	);
 };
